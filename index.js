@@ -1,8 +1,5 @@
 const core = require('@actions/core');
 
-const REDEPLOY_URL = "https://app.mircloud.host/1.0/environment/control/rest/redeploycontainers";
-const SIGNOUT_URL = "https://app.mircloud.host/1.0/users/authentication/rest/signout";
-const SIGNIN_URL = "https://app.mircloud.host/1.0/users/authentication/rest/signin";
 const SYSTEM_APPID = "1dd8d191d38fff45e62564fcf67fdcd6";
 
 const makeRequest = async (actionName, url, params) => {
@@ -32,26 +29,31 @@ const makeRequest = async (actionName, url, params) => {
 }
 
 try {
+    const host = core.getInput('host');
     const login = core.getInput('login');
     const password = core.getInput('password');
     const envName = core.getInput('env-name');
     const tag = core.getInput('tag');
     const nodeId = core.getInput('node-id');
 
-    const { session } = await makeRequest(SIGNIN_URL, {
+    const { session } = await makeRequest(
+        `https://${host}/1.0/users/authentication/rest/signin`, {
         appid: SYSTEM_APPID,
         password: password,
         login
     });
 
-    await makeRequest(REDEPLOY_URL, {
-        session,
-        envName,
-        tag,
-        nodeId
+    await makeRequest(
+        `https://${host}/1.0/environment/control/rest/redeploycontainers`,
+        {
+            session,
+            envName,
+            tag,
+            nodeId
     });
 
-    await makeRequest(SIGNOUT_URL, {
+    await makeRequest(
+        `https://${host}/1.0/users/authentication/rest/signout`, {
         appid: SYSTEM_APPID,
         session
     });
