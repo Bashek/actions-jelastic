@@ -37,13 +37,15 @@ const doAction = async ({
                             nodeId
                         }) => {
     const { session } = await makeRequest(
+        "Signin",
         `https://${host}/1.0/users/authentication/rest/signin`, {
             appid: SYSTEM_APPID,
-            password: password,
+            password,
             login
         });
 
     await makeRequest(
+        "Redeploy",
         `https://${host}/1.0/environment/control/rest/redeploycontainers`,
         {
             session,
@@ -53,6 +55,7 @@ const doAction = async ({
         });
 
     await makeRequest(
+        "Signout"
         `https://${host}/1.0/users/authentication/rest/signout`, {
             appid: SYSTEM_APPID,
             session
