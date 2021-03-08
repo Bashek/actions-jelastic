@@ -1,0 +1,25 @@
+name: 'Jelastic redeploy image'
+author: 'abashek'
+description: 'Trigger API to redeploy container'
+inputs:
+  login:
+    description: 'Login for api '
+    required: true
+  password:
+    description: 'Password for api '
+    required: true
+  env-name:
+    description: 'environment name in jelastic dashboard'
+    required: true
+  tag:
+    description: 'docker image tag'
+    required: true
+  node-id:
+    description: 'target NodeId'
+    required: true
+outputs:
+  results:
+    description: 'Log of api requests'
+runs:
+  using: 'node12'
+  main: 'index.js'
