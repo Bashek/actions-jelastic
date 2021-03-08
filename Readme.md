@@ -8,10 +8,10 @@ Actually action calls consecutively folowing APIs
 ## Example
 ```yml
 - name: 'Redeploy build'
-  uses: abashek/jelastic-redeploy-action@v1
+  uses: Bashek/jelastic-redeploy-action@v1
   with:
-    login: ${{ secrets.TWILIO_ACCOUNT_SID }}
-    password: ${{ secrets.TWILIO_ACCOUNT_SID }}
+    login: ${{ secrets.JELASTIC_LOGIN }}
+    password: ${{ secrets.JELASTIC_PASS }}
     host: 'app.mircloud.host'
     env-name: 'target-env'
     tag: 'latest'
