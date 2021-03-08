@@ -28,20 +28,20 @@ const makeRequest = async (actionName, url, params) => {
         }));
 }
 
-try {
-    const host = core.getInput('host');
-    const login = core.getInput('login');
-    const password = core.getInput('password');
-    const envName = core.getInput('env-name');
-    const tag = core.getInput('tag');
-    const nodeId = core.getInput('node-id');
-
+const doAction = async ({
+                            host,
+                            password,
+                            login,
+                            envName,
+                            tag,
+                            nodeId
+                        }) => {
     const { session } = await makeRequest(
         `https://${host}/1.0/users/authentication/rest/signin`, {
-        appid: SYSTEM_APPID,
-        password: password,
-        login
-    });
+            appid: SYSTEM_APPID,
+            password: password,
+            login
+        });
 
     await makeRequest(
         `https://${host}/1.0/environment/control/rest/redeploycontainers`,
@@ -50,14 +50,27 @@ try {
             envName,
             tag,
             nodeId
-    });
+        });
 
     await makeRequest(
         `https://${host}/1.0/users/authentication/rest/signout`, {
-        appid: SYSTEM_APPID,
-        session
-    });
+            appid: SYSTEM_APPID,
+            session
+        });
+}
 
+try {
+    doAction({
+        host: core.getInput('host'),
+        password: core.getInput('password'),
+        login: core.getInput('login'),
+        envName: core.getInput('env-name'),
+        tag: core.getInput('tag'),
+        nodeId: core.getInput('node-id')
+    }).then()
+        .catch(error => {
+            core.setFailed(error.message);
+        })
 } catch (error) {
     core.setFailed(error.message);
 }
