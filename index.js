@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-
+const fetch = require('node-fetch');
 const SYSTEM_APPID = "1dd8d191d38fff45e62564fcf67fdcd6";
 
 const makeRequest = async (actionName, url, params) => {
