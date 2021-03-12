@@ -20,7 +20,7 @@ const makeRequest = async (actionName, url, params) => {
         .then((result => {
             console.log(JSON.stringify(result, null, "  "));
 
-            if (result.status !== 0) {
+            if (result.result !== 0) {
                 throw Error(`actionName field. Status code = ${result.status}`);
             }
 
