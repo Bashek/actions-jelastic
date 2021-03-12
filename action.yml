@@ -11,6 +11,9 @@ inputs:
   env-name:
     description: 'environment name in jelastic dashboard'
     required: true
+  host:
+      description: 'api host (app.platform.com)'
+      required: true
   tag:
     description: 'docker image tag'
     required: true
