@@ -1,6 +1,9 @@
 name: 'Jelastic redeploy image'
 author: 'abashek'
 description: 'Trigger API to redeploy container'
+branding:
+  icon: 'download-cloud'
+  color: 'blue'
 inputs:
   login:
     description: 'Login for api '
