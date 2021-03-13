@@ -21,7 +21,7 @@ const makeRequest = async (actionName, url, params) => {
             console.log(JSON.stringify(result, null, "  "));
 
             if (result.result !== 0) {
-                throw Error(`actionName field. Status code = ${result.status}`);
+                throw Error(`${actionName} field. Status code = ${result.status}`);
             }
 
             return result;
@@ -55,7 +55,7 @@ const doAction = async ({
         });
 
     await makeRequest(
-        "Signout"
+        "Signout",
         `https://${host}/1.0/users/authentication/rest/signout`, {
             appid: SYSTEM_APPID,
             session
