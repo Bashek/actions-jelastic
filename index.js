@@ -29,13 +29,16 @@ const makeRequest = async (actionName, url, params) => {
 }
 
 const doAction = async ({
+                            action,
                             host,
                             password,
                             login,
                             envName,
                             tag,
-                            nodeId
+                            nodeId,
+                            fileUrl
                         }) => {
+    const actionName = action.toLocaleLowerCase();
     const { session } = await makeRequest(
         "Signin",
         `https://${host}/1.0/users/authentication/rest/signin`, {
@@ -44,15 +47,29 @@ const doAction = async ({
             login
         });
 
-    await makeRequest(
-        "Redeploy",
-        `https://${host}/1.0/environment/control/rest/redeploycontainers`,
-        {
-            session,
-            envName,
-            tag,
-            nodeId
-        });
+    if (actionName === "redeploy") {
+        await makeRequest(
+            "Redeploy",
+            `https://${host}/1.0/environment/control/rest/redeploycontainers`,
+            {
+                session,
+                envName,
+                tag,
+                nodeId
+            });
+    }
+
+    if (actionName === "deployarchive") {
+        await makeRequest(
+            "Deploy Archive",
+            `https://${host}/1.0/environment/deployment/rest/deployarchive`,
+            {
+                session,
+                envName,
+                nodeId,
+                fileUrl
+            });
+    }
 
     await makeRequest(
         "Signout",
@@ -64,6 +81,8 @@ const doAction = async ({
 
 try {
     doAction({
+        action: core.getInput('action'),
+        fileUrl: core.getInput('fileUrl'),
         host: core.getInput('host'),
         password: core.getInput('password'),
         login: core.getInput('login'),

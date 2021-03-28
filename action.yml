@@ -17,12 +17,18 @@ inputs:
   host:
       description: 'api host (app.platform.com)'
       required: true
-  tag:
-    description: 'docker image tag'
-    required: true
   node-id:
     description: 'target NodeId'
     required: true
+  action:
+    description: 'deployarchive | redeploy'
+    required: true
+  tag:
+    description: 'docker image tag'
+    required: false
+  fileUrl:
+    description: 'Url to archive'
+    required: false
 outputs:
   results:
     description: 'Log of api requests'
